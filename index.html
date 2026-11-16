@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaliExplore - Travel Bali</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#home"
+                aria-label="BaliExplore - Beranda">
+                <span class="brand-logo" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" role="img">
+                        <circle cx="24" cy="24" r="22" fill="#f4a261" />
+                        <path d="M8 32 18 20l7 8 5-6 10 10H8Z" fill="#176044" />
+                        <path d="M29 31c0-7 3-12 8-16-1 6-2 11-1 16h-7Z" fill="#103d2d" />
+                        <path d="M32 19c3 0 6 1 8 3-4 0-7 1-9 3 0-2 0-4 1-6Z" fill="#103d2d" />
+                    </svg>
+                </span>
+                <span>BaliExplore</span>
+            </a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Buka menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#destinasi">Destinasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paket">Paket Wisata</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header id="home" class="hero">
+        <div class="hero-content container">
+            <div class="hero-copy">
+                <span class="eyebrow">LIBURAN DIMULAI DARI SINI</span>
+                <h1>Temukan tempat untuk <span>menginap</span> di Bali</h1>
+                <p>Hotel, vila, dan pengalaman terbaik untuk perjalanan yang lebih mudah dan berkesan.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-warning hero-action" href="#destinasi">Jelajahi Destinasi</a>
+                    <a class="btn btn-outline-light hero-action" href="#paket">Lihat Paket Wisata</a>
+                </div>
+            </div>
+
+            <div class="hero-slider-controls" aria-label="Kontrol gambar wisata">
+                <button class="slider-button" id="previousSlide" type="button"
+                    aria-label="Gambar sebelumnya">&#10094;</button>
+                <div class="slider-dots" id="sliderDots" aria-label="Pilih gambar wisata"></div>
+                <button class="slider-button" id="nextSlide" type="button"
+                    aria-label="Gambar berikutnya">&#10095;</button>
+            </div>
+
+            <div class="search-shell" id="searchPanel" aria-label="Pencarian perjalanan">
+                <div class="search-tabs" role="tablist" aria-label="Jenis perjalanan">
+                    <button class="search-tab active" type="button" data-type="Akomodasi">⌂
+                        <span>Akomodasi</span></button>
+                    <button class="search-tab" type="button" data-type="Aktivitas">✦ <span>Aktivitas</span></button>
+                    <button class="search-tab" type="button" data-type="Paket wisata">▣ <span>Paket
+                            wisata</span></button>
+                </div>
+                <form id="searchForm" class="search-form">
+                    <label class="search-field destination-field">
+                        <span class="field-icon">⌖</span>
+                        <span class="field-content"><small>Ke mana Anda ingin pergi?</small><input
+                                id="searchDestination" type="text" placeholder="Contoh: Ubud, Bali"
+                                autocomplete="off"></span>
+                        <div class="suggestions" id="destinationSuggestions" role="listbox"></div>
+                    </label>
+                    <label class="search-field">
+                        <span class="field-icon">◷</span>
+                        <span class="field-content"><small>Check-in</small><input id="checkIn" type="date"
+                                required></span>
+                    </label>
+                    <label class="search-field">
+                        <span class="field-icon">◷</span>
+                        <span class="field-content"><small>Check-out</small><input id="checkOut" type="date"
+                                required></span>
+                    </label>
+                    <button class="guest-field" type="button" id="guestToggle"><span
+                            class="field-icon">♙</span><span><small>Jumlah tamu</small><strong id="guestSummary">2
+                                dewasa · 1 kamar</strong></span><span class="chevron">⌄</span></button>
+                    <button class="search-submit" type="submit">Cari</button>
+                </form>
+                <div class="guest-popover" id="guestPopover" aria-hidden="true">
+                    <div class="guest-row"><span><strong>Dewasa</strong><small>Usia 13 tahun ke atas</small></span>
+                        <div class="stepper"><button type="button" data-counter="adults" data-change="-1">−</button><b
+                                id="adultsCount">2</b><button type="button" data-counter="adults"
+                                data-change="1">+</button></div>
+                    </div>
+                    <div class="guest-row"><span><strong>Anak-anak</strong><small>Usia 0–12 tahun</small></span>
+                        <div class="stepper"><button type="button" data-counter="children" data-change="-1">−</button><b
+                                id="childrenCount">0</b><button type="button" data-counter="children"
+                                data-change="1">+</button></div>
+                    </div>
+                    <div class="guest-row"><span><strong>Kamar</strong><small>Jumlah kamar</small></span>
+                        <div class="stepper"><button type="button" data-counter="rooms" data-change="-1">−</button><b
+                                id="roomsCount">1</b><button type="button" data-counter="rooms"
+                                data-change="1">+</button></div>
+                    </div>
+                </div>
+                <label class="work-trip"><input type="checkbox"> Saya bepergian untuk kerja</label>
+            </div>
+        </div>
+    </header>
+
+    <section class="search-results-section d-none" id="searchResults" aria-live="polite">
+        <div class="container">
+            <div class="results-heading">
+                <div><span class="section-label">HASIL PENCARIAN</span>
+                    <h2 id="resultsTitle">Tempat menginap di Bali</h2>
+                    <p id="resultsMeta">Pilihan terbaik untuk perjalananmu</p>
+                </div>
+                <div class="results-actions"><label class="sort-label" for="sortHotels">Urutkan <select id="sortHotels">
+                            <option value="recommended">Rekomendasi</option>
+                            <option value="cheapest">Harga termurah</option>
+                            <option value="expensive">Harga termahal</option>
+                            <option value="rating">Rating tertinggi</option>
+                        </select></label><button class="filter-button" type="button" id="filterToggle">☷ Filter</button>
+                </div>
+            </div>
+            <div class="results-layout">
+                <aside class="filter-panel" id="filterPanel"><strong>Filter pilihan</strong><label><input
+                            type="checkbox" class="filter-check" data-filter="pool"> Kolam renang</label><label><input
+                            type="checkbox" class="filter-check" data-filter="breakfast"> Termasuk
+                        sarapan</label><label><input type="checkbox" class="filter-check" data-filter="freeCancel">
+                        Pembatalan gratis</label>
+                    <hr><label class="price-filter">Harga maksimal <b id="priceValue">Rp3.000.000</b><input type="range"
+                            id="priceFilter" min="400000" max="3000000" step="100000" value="3000000"></label></aside>
+                <div class="result-list" id="resultList"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinasi -->
+    <section id="destinasi" class="section-padding">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-label">DESTINASI PILIHAN</p>
+                <h2>Tempat Wisata Favorit</h2>
+                <p>Temukan tempat terbaik untuk liburanmu di Bali.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card destination-card h-100">
+                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80"
+                            class="card-img-top" alt="Pemandangan alam Bali">
+                        <div class="card-body">
+                            <h5 class="card-title">Ubud</h5>
+                            <p class="card-text">Nikmati sawah hijau, alam yang indah, dan budaya Bali.</p>
+                            <button class="btn btn-outline-success destination-info-btn" type="button"
+                                data-destination="Ubud">Lihat Paket</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card destination-card h-100">
+                        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=800&q=80"
+                            class="card-img-top" alt="Pemandangan pantai Bali">
+                        <div class="card-body">
+                            <h5 class="card-title">Uluwatu</h5>
+                            <p class="card-text">Jelajahi tebing pantai dan pemandangan matahari terbenam.</p>
+                            <button class="btn btn-outline-success destination-info-btn" type="button"
+                                data-destination="Uluwatu">Lihat Paket</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card destination-card h-100">
+                        <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=800&q=80"
+                            class="card-img-top" alt="Pantai tropis dengan laut biru">
+                        <div class="card-body">
+                            <h5 class="card-title">Nusa Penida</h5>
+                            <p class="card-text">Nikmati laut biru, pantai eksotis, dan pemandangan menawan.</p>
+                            <button class="btn btn-outline-success destination-info-btn" type="button"
+                                data-destination="Nusa Penida">Lihat Paket</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paket Wisata -->
+    <section id="paket" class="section-padding package-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-label">PAKET PERJALANAN</p>
+                <h2>Pilih Paket Liburanmu</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="package-card">
+                        <h4>Bali Escape</h4>
+                        <p class="price">Rp450.000 <small>/ orang</small></p>
+                        <p>Wisata alam dan budaya Ubud selama satu hari.</p>
+                        <button class="btn btn-success w-100 book-btn" data-package="Bali Escape">
+                            Pesan Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="package-card popular">
+                        <span class="badge bg-warning text-dark mb-3">Favorit</span>
+                        <h4>Bali Highlights</h4>
+                        <p class="price">Rp950.000- Rp1.200.000 <small>/ orang</small></p>
+                        <p>Wisata pantai, pura, dan sunset selama dua hari.</p>
+                        <button class="btn btn-success w-100 book-btn" data-package="Bali Highlights">
+                            Pesan Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="package-card">
+                        <h4>Bali Island Trip</h4>
+                        <p class="price">Rp1.650.000 <small>/ orang</small></p>
+                        <p>Petualangan Bali dan Nusa Penida selama tiga hari.</p>
+                        <button class="btn btn-success w-100 book-btn" data-package="Bali Island Trip">
+                            Pesan Sekarang
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center small text-secondary mt-4">
+                *Harga merupakan contoh dan dapat disesuaikan.
+            </p>
+        </div>
+    </section>
+
+    <!-- Form Pemesanan -->
+    <section id="kontak" class="section-padding">
+        <div class="container">
+            <div class="booking-box mx-auto">
+                <div class="text-center mb-4">
+                    <p class="section-label">MULAI PETUALANGANMU</p>
+                    <h2>Pesan Perjalanan</h2>
+                    <p>Isi formulir berikut untuk membuat permintaan pemesanan.</p>
+                </div>
+
+                <form id="bookingForm">
+                    <div class="mb-3">
+                        <label for="nama" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="nama" placeholder="Masukkan nama" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="nama@email.com" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="paketWisata" class="form-label">Pilih Paket</label>
+                        <select class="form-select" id="paketWisata" required>
+                            <option value="">Pilih paket wisata</option>
+                            <option>Bali Escape</option>
+                            <option>Bali Highlights</option>
+                            <option>Bali Island Trip</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tanggal" class="form-label">Tanggal Perjalanan</label>
+                        <input type="date" class="form-control" id="tanggal" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">
+                        Lanjut ke Pembayaran
+                    </button>
+                </form>
+
+                <div id="hasilPesan" class="alert alert-success mt-3 d-none" role="status" aria-live="polite"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pembayaran -->
+    <div class="payment-modal" id="paymentModal" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="paymentTitle">
+        <div class="payment-dialog">
+            <button class="payment-close" id="closePayment" type="button" aria-label="Tutup pembayaran">&times;</button>
+            <p class="section-label">PEMBAYARAN AMAN</p>
+            <h2 id="paymentTitle">Selesaikan pembayaran</h2>
+            <p class="payment-subtitle">Pesanan <strong id="paymentPackage">-</strong> atas nama <strong
+                    id="paymentCustomer">-</strong></p>
+
+            <div class="payment-total">
+                <span>Total pembayaran</span>
+                <strong id="paymentTotal">Rp0</strong>
+            </div>
+
+            <fieldset class="payment-methods">
+                <legend>Pilih metode pembayaran</legend>
+                <label class="payment-option"><input type="radio" name="paymentMethod" value="QRIS"
+                        checked><span><strong>QRIS</strong><small>Scan dengan semua aplikasi
+                            pembayaran</small></span></label>
+                <label class="payment-option"><input type="radio" name="paymentMethod"
+                        value="Transfer Bank"><span><strong>Transfer Bank</strong><small>BCA, Mandiri, BNI, atau
+                            BRI</small></span></label>
+                <label class="payment-option"><input type="radio" name="paymentMethod"
+                        value="E-Wallet"><span><strong>E-Wallet</strong><small>GoPay, OVO, DANA, atau
+                            ShopeePay</small></span></label>
+            </fieldset>
+
+            <div class="qris-box" id="qrisBox">
+                <p class="qris-title">Scan QRIS untuk membayar</p>
+                <img id="qrisImage" class="qris-image"
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=BaliExplore-QRIS"
+                    alt="QRIS BaliExplore">
+                <p class="qris-instruction">Buka aplikasi pembayaran, pilih Scan QR, lalu arahkan kamera ke gambar QRIS
+                    di atas.</p>
+                <small class="qris-warning">Ganti gambar ini dengan foto QRIS merchant resmi Anda sebelum website
+                    digunakan untuk transaksi nyata.</small>
+            </div>
+
+            <button class="btn btn-success w-100" id="payNow" type="button">Bayar Terlebih Dahulu</button>
+            <p class="payment-note">Setelah pembayaran berhasil, Anda akan diarahkan ke chat WhatsApp admin.</p>
+            <div id="paymentStatus" class="payment-status d-none" role="status" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <!-- Detail destinasi -->
+    <div class="destination-modal" id="destinationModal" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-labelledby="destinationTitle">
+        <div class="destination-dialog">
+            <button class="payment-close" id="closeDestination" type="button"
+                aria-label="Tutup detail destinasi">&times;</button>
+            <p class="section-label">PILIHAN WISATA</p>
+            <h2 id="destinationTitle">Destinasi Bali</h2>
+            <img id="destinationImage" class="destination-detail-image" src="" alt="Gambar destinasi wisata">
+            <p id="destinationDescription"></p>
+            <p id="destinationLongDescription" class="destination-long-description"></p>
+            <div class="destination-facts">
+                <div><strong>Waktu terbaik</strong><span id="destinationBestTime"></span></div>
+                <div><strong>Durasi wisata</strong><span id="destinationDuration"></span></div>
+            </div>
+            <h5>Yang bisa kamu nikmati:</h5>
+            <ul id="destinationActivities"></ul>
+            <button class="btn btn-success w-100" id="destinationPackage" type="button">Lihat Paket Wisata</button>
+        </div>
+    </div>
+
+    <!-- Ulasan Pelanggan -->
+    <section id="ulasan" class="section-padding review-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-label">ULASAN PELANGGAN</p>
+                <h2>Pengalaman Mereka di Bali</h2>
+                <p>Rasakan sendiri perjalanan menyenangkan bersama BaliExplore.</p>
+            </div>
+
+            <div class="review-card mx-auto">
+                <div class="review-content">
+                    <div class="review-message">
+                        <div class="stars" aria-label="Rating 5 dari 5 bintang">★★★★★</div>
+                        <blockquote>
+                            “Perjalanan bersama BaliExplore sangat menyenangkan. Destinasinya indah,
+                            pelayanan ramah, dan semua kegiatan berjalan dengan lancar.”
+                        </blockquote>
+                    </div>
+                    <div class="review-user">
+                        <div class="user-avatar" aria-hidden="true">S</div>
+                        <p class="review-author mb-0">Sinta</p>
+                        <small>Jakarta</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card mx-auto">
+                <div class="review-content">
+                    <div class="review-message">
+                        <div class="stars" aria-label="Rating 5 dari 5 bintang">★★★★★</div>
+                        <blockquote>
+                            “Perjalanan bersama BaliExplore sangat menyenangkan. Destinasinya indah,
+                            pelayanan ramah, dan semua kegiatan berjalan dengan lancar.”
+                        </blockquote>
+                    </div>
+                    <div class="review-user">
+                        <div class="user-avatar" aria-hidden="true">S</div>
+                        <p class="review-author mb-0">suci</p>
+                        <small>Jakarta</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <h4>BaliExplore</h4>
+            <p>Temukan pengalaman terbaik di Pulau Dewata.</p>
+            <p class="mb-0">&copy; <span id="tahun"></span> BaliExplore. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scrib.js"></script>
+</body>
+
+</html>
